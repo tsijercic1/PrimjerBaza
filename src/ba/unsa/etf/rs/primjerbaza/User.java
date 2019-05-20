@@ -1,12 +1,23 @@
 package ba.unsa.etf.rs.primjerbaza;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 public class User {
     private String name,surname;
+    private LocalDate birthday;
     private int id;
 
     public User(String name, String surname) {
         this.name = name;
         this.surname = surname;
+        birthday = LocalDate.now();
+    }
+
+    public User(String name, String surname, LocalDate birthday) {
+        this.name = name;
+        this.surname = surname;
+        this.birthday = birthday;
     }
 
     public int getId() {
@@ -33,29 +44,20 @@ public class User {
         this.surname = surname;
     }
 
+    public LocalDate getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(LocalDate birthday) {
+        this.birthday = birthday;
+    }
+
     @Override
     public String toString() {
-        return name+" "+surname;
+        return name+" "+surname+" "+birthday.format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
 
-        User user = (User) o;
-
-        if (name != null ? !name.equals(user.name) : user.name != null) return false;
-        return surname != null ? surname.equals(user.surname) : user.surname == null;
-
-    }
-
-    @Override
-    public int hashCode() {
-        int result = name != null ? name.hashCode() : 0;
-        result = 31 * result + (surname != null ? surname.hashCode() : 0);
-        return result;
-    }
 
 
 }

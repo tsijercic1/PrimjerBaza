@@ -1,7 +1,8 @@
 create table users(
     id integer primary key ,
     name text,
-    surname text
+    surname text,
+    birthday date
 );
 
 create table cars(

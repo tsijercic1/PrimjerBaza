@@ -6,6 +6,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -72,8 +73,8 @@ public class UserDAO {
     }
 
     private void initializeStatements() throws SQLException {
-        addUser = connection.prepareStatement("insert into users values(?,?,?)");
-        updateUser = connection.prepareStatement("update users set name=?,surname=? where id=?");
+        addUser = connection.prepareStatement("insert into users values(?,?,?,?)");
+        updateUser = connection.prepareStatement("update users set name=?,surname=?,birthday=? where id=?");
         deleteUser = connection.prepareStatement("delete from users where id = ?");
         getUsers = connection.prepareStatement("select * from users");
     }
@@ -118,6 +119,7 @@ public class UserDAO {
             addUser.setInt(1,id);
             addUser.setString(2, user.getName());
             addUser.setString(3, user.getSurname());
+            addUser.setDate(4,Date.valueOf(user.getBirthday()));
             addUser.executeUpdate();
         } catch (SQLException e) {
 
@@ -133,7 +135,8 @@ public class UserDAO {
                 int id = resultSet.getInt("id");
                 String name = resultSet.getString("name");
                 String surname = resultSet.getString("surname");
-                user = new User(name, surname);
+                LocalDate birthday = resultSet.getDate("birthday").toLocalDate();
+                user = new User(name, surname,birthday);
                 user.setId(id);
             }
         } catch (SQLException e) {
